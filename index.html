@@ -1,0 +1,1912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Maths Notebook — 14 Handwritten Tools</title>
+
+<!-- ===================== PWA ===================== -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#4c6ef5">
+<meta name="description" content="14 step-by-step handwritten maths tools: LCM, HCF, division, multiplication, Pythagoras, equations, squares, cubes, primes, fractions, percentages, averages, ratio and factors.">
+<link rel="apple-touch-icon" href="logo.jpg">
+<link rel="icon" href="logo.jpg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Maths Notebook">
+<meta name="mobile-web-app-capable" content="yes">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ============ BASE ============ */
+:root{
+  --ink:#1e2b3a;
+  --ink-2:#5a6c82;
+  --paper:#fffdf6;
+  --accent:#4c6ef5;
+  --accent-2:#f76707;
+  --line:#dbe4f0;
+  --shadow:0 12px 34px rgba(30,43,58,.09), 0 2px 8px rgba(30,43,58,.05);
+}
+*{box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  margin:0;
+  font-family:'Nunito',system-ui,-apple-system,sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 15% -5%, #e6eeff 0%, transparent 45%),
+    radial-gradient(circle at 92% 5%, #ffeade 0%, transparent 42%),
+    #f2f5fb;
+  min-height:100vh;
+  padding:30px 16px 90px;
+  -webkit-font-smoothing:antialiased;
+  -webkit-tap-highlight-color:transparent;
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:radial-gradient(#c8d5e8 1px, transparent 1px);
+  background-size:26px 26px;opacity:.4;
+}
+.wrap{max-width:940px;margin:0 auto;position:relative;z-index:1;}
+
+/* ============ HEADER ============ */
+header{text-align:center;margin-bottom:24px;}
+.brand{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:10px;}
+.logo{
+  width:54px;height:54px;border-radius:16px;object-fit:cover;background:#fff;
+  box-shadow:0 8px 18px rgba(30,43,58,.16);border:2px solid #fff;flex:0 0 auto;
+}
+h1{
+  font-family:'Kalam',cursive;
+  font-size:clamp(2rem,5.5vw,3.1rem);
+  margin:0;line-height:1.1;letter-spacing:.5px;
+}
+h1 .hl{
+  color:var(--accent);
+  text-decoration:underline;
+  text-decoration-style:wavy;
+  text-decoration-color:var(--accent-2);
+  text-decoration-thickness:3px;
+  text-underline-offset:8px;
+}
+header .sub{
+  margin:8px auto 0;color:var(--ink-2);font-weight:600;font-size:.95rem;
+  max-width:540px;line-height:1.5;
+}
+.install-btn{
+  margin-top:14px;border:0;cursor:pointer;
+  font-family:'Nunito',sans-serif;font-weight:800;font-size:.86rem;
+  padding:10px 20px;border-radius:999px;color:#fff;
+  background:linear-gradient(135deg,#0ca678,#1098ad);
+  box-shadow:0 8px 18px rgba(12,166,120,.35);transition:transform .15s;
+}
+.install-btn:hover{transform:translateY(-2px);}
+
+/* ============ TABS ============ */
+.tabs{
+  display:flex;flex-wrap:wrap;gap:8px;justify-content:center;
+  background:#fff;padding:10px;border-radius:22px;
+  box-shadow:var(--shadow);margin:0 auto 24px;max-width:900px;
+}
+.tab{
+  border:0;background:#f4f7fd;cursor:pointer;
+  font-family:'Nunito',sans-serif;font-weight:800;font-size:.82rem;
+  color:var(--ink-2);padding:10px 14px;border-radius:12px;
+  display:flex;align-items:center;gap:6px;line-height:1;
+  transition:all .2s ease;white-space:nowrap;
+}
+.tab:hover{background:#e9effc;color:var(--ink);transform:translateY(-1px);}
+.tab.active{
+  background:linear-gradient(135deg,#4c6ef5,#7048e8);
+  color:#fff;box-shadow:0 8px 16px rgba(76,110,245,.32);
+}
+.tab .ico{font-size:.95rem;line-height:1;}
+
+/* ============ PANELS / CARD ============ */
+.panel{display:none;}
+.panel.active{display:block;animation:fadeUp .4s cubic-bezier(.22,.9,.35,1) both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+
+.card{
+  background:#fff;border-radius:26px;padding:28px;
+  box-shadow:var(--shadow);border:1px solid #eef2f9;
+}
+.card-head{margin-bottom:20px;}
+.badge{
+  display:inline-block;font-family:'Kalam',cursive;font-weight:700;
+  font-size:.82rem;letter-spacing:1.6px;text-transform:uppercase;
+  color:#fff;background:linear-gradient(135deg,#4c6ef5,#7048e8);
+  padding:3px 12px;border-radius:8px;margin-bottom:10px;
+}
+.badge.orange{background:linear-gradient(135deg,#f76707,#f59f00);}
+.badge.teal{background:linear-gradient(135deg,#0ca678,#1098ad);}
+.badge.pink{background:linear-gradient(135deg,#e64980,#be4bdb);}
+.badge.slate{background:linear-gradient(135deg,#495057,#343a40);}
+.badge.red{background:linear-gradient(135deg,#e03131,#c2255c);}
+.badge.indigo{background:linear-gradient(135deg,#3b5bdb,#5f3dc4);}
+.badge.green{background:linear-gradient(135deg,#2f9e44,#0ca678);}
+.badge.grape{background:linear-gradient(135deg,#9c36b5,#6741d9);}
+.badge.cyan{background:linear-gradient(135deg,#0c8599,#1098ad);}
+.badge.amber{background:linear-gradient(135deg,#e8590c,#f08c00);}
+.card-head h2{
+  font-family:'Kalam',cursive;font-size:1.65rem;margin:0 0 4px;font-weight:700;
+}
+.card-head p{margin:0;color:var(--ink-2);font-size:.93rem;font-weight:600;}
+
+/* ============ FORM ============ */
+.row{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap;}
+.field{display:flex;flex-direction:column;gap:7px;flex:1 1 190px;min-width:0;}
+.field.small{flex:0 0 165px;}
+.field.tiny{flex:0 0 120px;}
+label{
+  font-size:.72rem;font-weight:800;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--ink-2);
+}
+input[type=text],select{
+  font-family:'Kalam',cursive;font-size:1.25rem;font-weight:400;
+  padding:11px 15px;border-radius:14px;border:2px solid var(--line);
+  background:#fbfcff;color:var(--ink);outline:none;
+  transition:all .2s ease;width:100%;
+}
+select{
+  font-family:'Nunito',sans-serif;font-size:.95rem;font-weight:800;
+  padding:13px 12px;cursor:pointer;
+}
+input[type=text]:focus,select:focus{
+  border-color:var(--accent);background:#fff;
+  box-shadow:0 0 0 4px rgba(76,110,245,.13);
+}
+input::placeholder{color:#a9b8cc;}
+.btn{
+  font-family:'Nunito',sans-serif;font-weight:800;font-size:.96rem;
+  padding:13px 26px;border-radius:14px;border:0;cursor:pointer;
+  background:linear-gradient(135deg,#4c6ef5,#7048e8);color:#fff;
+  box-shadow:0 9px 22px rgba(76,110,245,.35);
+  transition:transform .15s ease, box-shadow .15s ease;
+  white-space:nowrap;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 14px 28px rgba(76,110,245,.42);}
+.btn:active{transform:translateY(0);}
+.hint{
+  margin-top:13px;font-size:.83rem;color:var(--ink-2);font-weight:600;line-height:2;
+}
+.hint a{
+  color:var(--accent);text-decoration:none;font-weight:800;
+  border-bottom:2px dotted rgba(76,110,245,.4);cursor:pointer;
+}
+.hint a:hover{color:var(--accent-2);border-bottom-color:rgba(247,103,7,.5);}
+
+/* ============ ERROR ============ */
+.err{
+  margin-top:20px;padding:14px 18px;border-radius:14px;
+  background:#fff4f4;border:1.5px solid #ffd4d4;color:#c92a2a;
+  font-weight:700;font-size:.94rem;
+}
+
+/* ============ PAPER RESULT ============ */
+.result{margin-top:24px;animation:fadeUp .45s cubic-bezier(.22,.9,.35,1) both;}
+.paper{
+  position:relative;
+  background:linear-gradient(165deg,#fffef9 0%,#fffcf0 100%);
+  border:1px solid #eee6d4;border-radius:16px;
+  padding:30px 24px 22px;
+  box-shadow:0 8px 22px rgba(30,43,58,.07), inset 0 0 70px rgba(255,238,190,.28);
+  overflow-x:auto;
+}
+.paper::before{
+  content:'';position:absolute;top:-11px;left:50%;transform:translateX(-50%) rotate(-1.6deg);
+  width:118px;height:23px;background:rgba(255,209,92,.6);
+  border-radius:3px;box-shadow:0 2px 7px rgba(0,0,0,.09);
+}
+.paper::after{
+  content:'';position:absolute;top:0;left:0;bottom:0;width:3px;
+  background:linear-gradient(#f7a072,#f76707);border-radius:16px 0 0 16px;
+}
+.paper-title{
+  font-family:'Kalam',cursive;font-size:1.12rem;font-weight:700;
+  color:var(--accent-2);margin:0 0 16px;letter-spacing:.3px;
+}
+.tableau{overflow-x:auto;padding-bottom:6px;}
+
+/* ============ LADDER TABLE ============ */
+.ladder{
+  border-collapse:collapse;
+  font-family:'Kalam',cursive;
+  font-size:clamp(1.1rem,3.6vw,1.45rem);
+  margin:4px 0 8px;
+}
+.ladder td{padding:1px 15px;text-align:center;color:var(--ink);}
+.ladder td.dv{
+  text-align:right;padding-right:13px;font-weight:700;
+  border-right:3px solid var(--ink);color:var(--accent);
+}
+.ladder td.num{min-width:2.1em;}
+.ladder tr:first-child td.num{border-top:3px solid var(--ink);}
+.ladder tr.lrow{animation:rowIn .38s cubic-bezier(.22,.9,.35,1) both;}
+@keyframes rowIn{from{opacity:0;transform:translateX(-10px);}to{opacity:1;transform:none;}}
+
+/* ============ LONG DIVISION / MULTIPLICATION GRIDS ============ */
+.longdiv,.mult{
+  --rh:2.1em;
+  font-family:'Kalam',cursive;
+  font-size:clamp(1.1rem,3.6vw,1.5rem);
+  display:inline-block;
+}
+.longdiv{display:flex;align-items:flex-start;}
+.ld-divisor{
+  margin-top:var(--rh);padding-right:.55em;
+  line-height:var(--rh);font-weight:700;color:var(--accent);
+}
+.ld-main{display:flex;flex-direction:column;}
+.ld-q{border-left:3px solid transparent;}
+.ld-work{border-top:3px solid var(--ink);border-left:3px solid var(--ink);}
+.ld-row{display:flex;height:var(--rh);}
+.ld-row.ruler{height:.6em;}
+.ld-row .c{
+  flex:0 0 1.22em;
+  display:flex;align-items:center;justify-content:center;
+  border-bottom:3px solid transparent;
+  color:var(--ink);
+}
+.ld-row .c.rule{border-bottom-color:var(--ink);}
+.ld-row .c.op{color:var(--accent-2);font-weight:700;}
+
+/* ============ SUM LINE ============ */
+.sumline{
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  margin-top:20px;padding-top:16px;border-top:2px dashed #e3dcc8;
+}
+.tag{
+  font-family:'Nunito',sans-serif;font-size:.7rem;font-weight:800;
+  letter-spacing:.12em;text-transform:uppercase;
+  background:#eef2ff;color:var(--accent);
+  padding:5px 11px;border-radius:8px;white-space:nowrap;
+}
+.tag.green{background:#e6fcf5;color:#0ca678;}
+.tag.orange{background:#fff4e6;color:#e8590c;}
+.tag.pink{background:#fdeef6;color:#be4bdb;}
+.math{
+  font-family:'Kalam',cursive;font-size:clamp(1.1rem,3.4vw,1.4rem);
+  color:var(--ink);line-height:1.7;word-break:break-word;
+}
+.math b{color:var(--accent);font-weight:700;}
+.math .mul{color:var(--accent-2);}
+
+.note{
+  font-family:'Kalam',cursive;font-size:.98rem;color:#7c8a9c;
+  margin:16px 0 0;line-height:1.55;
+}
+.note b{color:var(--ink-2);}
+.worklist{
+  font-family:'Kalam',cursive;font-size:1.05rem;
+  margin:14px 0 0;padding:0;list-style:none;color:#4a5a6b;
+}
+.worklist li{padding:2px 0 2px 20px;position:relative;line-height:1.7;}
+.worklist li::before{
+  content:'▸';position:absolute;left:0;color:var(--accent-2);font-size:.85em;
+}
+
+/* ============ STEPS / FORMULA ============ */
+.steps{
+  font-family:'Kalam',cursive;font-size:1.06rem;line-height:1.95;
+  margin:0;padding-left:22px;color:var(--ink);
+}
+.steps li{padding:1px 0;}
+.steps li::marker{color:var(--accent-2);font-weight:700;}
+.steps b{color:var(--accent);}
+.formula{
+  font-family:'Kalam',cursive;font-size:clamp(1.1rem,3.6vw,1.4rem);
+  text-align:center;padding:14px 10px;color:var(--ink);
+  background:#fbfcff;border-radius:12px;border:1px dashed #dbe4f0;
+  margin:12px 0;line-height:1.6;
+}
+.sec{
+  font-family:'Kalam',cursive;font-size:1.05rem;font-weight:700;
+  color:var(--accent-2);margin:22px 0 8px;letter-spacing:.4px;
+}
+.sec:first-child{margin-top:0;}
+
+/* stacked fraction */
+.frac{
+  display:inline-flex;flex-direction:column;vertical-align:middle;
+  text-align:center;font-size:.84em;line-height:1.06;margin:0 .16em;
+}
+.frac span:first-child{border-bottom:1.6px solid currentColor;padding:0 .18em;}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:560px){
+  body{padding:20px 11px 70px;}
+  .card{padding:20px;border-radius:20px;}
+  .tab{padding:9px 12px;font-size:.76rem;}
+  .btn{width:100%;}
+  .field.small,.field.tiny{flex:1 1 100%;}
+  .logo{width:46px;height:46px;border-radius:13px;}
+  .paper{padding:26px 16px 18px;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="brand">
+      <img src="logo.jpg" alt="Maths Notebook" class="logo" onerror="this.remove()">
+      <h1>Maths <span class="hl">Notebook</span></h1>
+    </div>
+    <p class="sub">14 step-by-step handwritten tools — LCM, HCF, division, multiplication, Pythagoras, equations, squares, cubes, primes, fractions, percentages, averages, ratio &amp; factors.</p>
+    <button id="installBtn" class="install-btn" hidden>⬇ Install app</button>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button class="tab active" data-tab="lcm"><span class="ico">🔢</span>LCM</button>
+    <button class="tab" data-tab="hcf"><span class="ico">🔗</span>HCF</button>
+    <button class="tab" data-tab="div"><span class="ico">➗</span>Division</button>
+    <button class="tab" data-tab="mul"><span class="ico">✖️</span>Multiplication</button>
+    <button class="tab" data-tab="pyth"><span class="ico">📐</span>Pythagoras</button>
+    <button class="tab" data-tab="eq"><span class="ico">🧮</span>Equations</button>
+    <button class="tab" data-tab="sq"><span class="ico">🟦</span>Square &amp; √</button>
+    <button class="tab" data-tab="cube"><span class="ico">🧊</span>Cube &amp; ∛</button>
+    <button class="tab" data-tab="prime"><span class="ico">🧩</span>Prime Factors</button>
+    <button class="tab" data-tab="frac"><span class="ico">½</span>Fractions</button>
+    <button class="tab" data-tab="pct"><span class="ico">％</span>Percentage</button>
+    <button class="tab" data-tab="avg"><span class="ico">📊</span>Averages</button>
+    <button class="tab" data-tab="ratio"><span class="ico">⚖️</span>Ratio</button>
+    <button class="tab" data-tab="factor"><span class="ico">🔎</span>Factors</button>
+  </nav>
+
+  <main>
+    <!-- ================= 1. LCM ================= -->
+    <section class="panel active" id="panel-lcm">
+      <div class="card">
+        <div class="card-head">
+          <span class="badge">LCM</span>
+          <h2>Least Common Multiple</h2>
+          <p>Worked out with the division ladder (common division) method.</p>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="lcm-input">Numbers — separate with commas</label>
+            <input id="lcm-input" type="text" value="12, 18, 24" placeholder="e.g. 12, 18, 24" spellcheck="false">
+          </div>
+          <button class="btn" data-run="lcm">Show steps</button>
+        </div>
+        <div class="hint">Try:
+          <a data-fill="lcm-input" data-v="12, 18, 24">12, 18, 24</a> ·
+          <a data-fill="lcm-input" data-v="8, 12">8, 12</a> ·
+          <a data-fill="lcm-input" data-v="15, 25, 40">15, 25, 40</a>
+        </div>
+        <div id="lcm-out" class="result"></div>
+      </div>
+    </section>
+
+    <!-- ================= 2. HCF ================= -->
+    <section class="panel" id="panel-hcf">
+      <div class="card">
+        <div class="card-head">
+          <span class="badge teal">HCF</span>
+          <h2>Highest Common Factor</h2>
+          <p>Same ladder method — but we only multiply the divisors on the left.</p>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="hcf-input">Numbers — separate with commas</label>
+            <input id="hcf-input" type="text" value="24, 36, 60" placeholder="e.g. 24, 36, 60" spellcheck="false">
+          </div>
+          <button class="btn" data-run="hcf" style="background:linear-gradient(135deg,#0ca678,#1098ad);box-shadow:0 9px 22px rgba(12,166,120,.35)">Show steps</button>
+        </div>
+        <div class="hint">Try:
+          <a data-fill="hcf-input" data-v="24, 36, 60">24, 36, 60</a> ·
+          <a data-fill="hcf-input" data-v="18, 24">18, 24</a> ·
+          <a data-fill="hcf-input" data-v="45, 75, 90">45, 75, 90</a>
+        </div>
+        <div id="hcf-out" class="result"></div>
+      </div>
+    </section>
+
+    <!-- ================= 3. DIVISION ================= -->
+    <section class="panel" id="panel-div">
+      <div class="card">
+        <div class="card-head">
+          <span class="badge orange">Division</span>
+          <h2>Long Division</h2>
+          <p>Every subtract-and-bring-down step, laid out just like on paper.</p>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="div-a">Dividend</label>
+            <input id="div-a" type="text" value="288" placeholder="288" spellcheck="false">
+          </div>
+          <div class="field small">
+            <label for="div-b">Divisor</label>
+            <input id="div-b" type="text" value="12" placeholder="12" spellcheck="false">
+          </div>
+          <button class="btn" data-run="div" style="background:linear-gradient(135deg,#f76707,#f59f00);box-shadow:0 9px 22px rgba(247,103,7,.35)">Show steps</button>
+        </div>
+        <div class="hint">Try:
+          <a data-fill="div-a" data-v="288">288</a> ÷ <a data-fill="div-b" data-v="12">12</a> ·
+          <a data-fill="div-a" data-v="9456">9456</a> ÷ <a data-fill="div-b" data-v="24">24</a> ·
+          <a data-fill="div-a" data-v="1000">1000</a> ÷ <a data-fill="div-b" data-v="12">12</a>
+        </div>
+        <div id="div-out" class="result"></div>
+      </div>
+    </section>
+
+    <!-- ================= 4. MULTIPLICATION ================= -->
+    <section class="panel" id="panel-mul">
+      <div class="card">
+        <div class="card-head">
+          <span class="badge pink">Multiplication</span>
+          <h2>Long Multiplication</h2>
+          <p>The column method — partial products, then add them together.</p>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="mul-a">First number</label>
+            <input id="mul-a" type="text" value="246" placeholder="246" spellcheck="false">
+          </div>
+          <div class="field small">
+            <label for="mul-b">Second number</label>
+            <input id="mul-b" type="text" value="34" placeholder="34" spellcheck="false">
+          </div>
+          <button class="btn" data-run="mul" style="background:linear-gradient(135deg,#e64980,#be4bdb);box-shadow:0 9px 22px rgba(230,73,128,.35)">Show steps</button>
+        </div>
+        <div class="hint">Try:
+          <a data-fill="mul-a" data-v="246">246</a> × <a data-fill="mul-b" data-v="34">34</a> ·
+          <a data-fill="mul-a" data-v="78">78</a> × <a data-fill="mul-b" data-v="9">9</a> ·
+          <a data-fill="mul-a" data-v="1234">1234</a> × <a data-fill="mul-b" data-v="56">56</a>
+        </div>
+        <div id="mul-out" class="result"></div>
+      </div>
+    </section>
+
+    <!-- ================= 5. PYTHAGORAS ================= -->
+    <section class="panel" id="panel-pyth">
+      <div class="card">
+        <div class="card-head">
+          <span class="badge indigo">Pythagoras</span>
+          <h2>Pythagorean Theorem</h2>
+          <p>a² + b² = c² — find the hypotenuse or a missing leg, step by step.</p>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="pyth-a">Side a (leg)</label>
+            <input id="pyth-a" type="text" value="3" placeholder="3" spellcheck="false">
+          </div>
+          <div class="field">
+            <label for="pyth-b" id="pyth-b-label">Side b (leg)</label>
+            <input id="pyth-b" type="text" value="4" placeholder="4" spellcheck="false">
+          </div>
+          <div class="field small">
+            <label for="pyth-mode">Find</label>
+            <select id="pyth-mode">
+              <option value="hyp">Hypotenuse c</option>
+              <option value="leg">Missing leg b</option>
+            </select>
+          </div>
+          <button class="btn" data-run="pyth" style="background:linear-gradient(135deg,#3b5bdb,#5f3dc4);box-shadow:0 9px 22px rgba(59,91,219,.35)">Show steps</button>
+        </div>
+        <div class="hint">Try:
+          <a data-fill="pyth-a" data-v="3">3</a> &amp; <a data-fill="pyth-b" data-v="4">4</a> ·
+          <a data-fill="pyth-a" data-v="6">6</a> &amp; <a data-fill="pyth-b" data-v="8">8</a> ·
+          <a data-fill="pyth-a" data-v="5">5</a> &amp; <a data-fill="pyth-b" data-v="13">13</a>
+        </div>
+        <div id="pyth-out" class="result"></div>
+      </div>
+    </section>
+
+    <!-- ================= 6. EQUATIONS ================= -->
+    <section class="panel" id="panel-eq">
+      <div class="card">
+        <div class="card-head">
+          <span class="badge slate">Equations</span>
+          <h2>Linear Equations</h2>
+          <p>Solve ax + b = cx + d by collecting like terms.</p>
+        </div>
+        <div class="row">
+          <div class="field tiny">
+            <label for="eq-a">a (x on left)</label>
+            <input id="eq-a" type="text" value="3" spellcheck="false">
+          </div>
+          <div class="field tiny">
+            <label for="eq-b">b (number)</label>
+            <input id="eq-b" type="text" value="5" spellcheck="false">
+          </div>
+          <div class="field tiny">
+            <label for="eq-c">c (x on right)</label>
+            <input id="eq-c" type="text" value="0" spellcheck="false">
+          </div>
+          <div class="field tiny">
+            <label for="eq-d">d (number)</label>
+            <input id="eq-d" type="text" value="20" spellcheck="false">
+          </div>
+          <button class="btn" data-run="eq" style="background:linear-gradient(135deg,#495057,#343a40);box-shadow:0 9px 22px rgba(73,80,87,.35)">Show steps</button>
+        </div>
+        <div class="hint">Solves <b>a·x + b = c·x + d</b>. Try:
+          <a data-fill="eq-a" data-v="3">3</a>x +
+          <a data-fill="eq-b" data-v="5">5</a> =
+          <a data-fill="eq-c" data-v="0">0</a>x +
+          <a data-fill="eq-d" data-v="20">20</a> ·
+          <a data-fill="eq-a" data-v="5">5</a>x −
+          <a data-fill="eq-b" data-v="7">7</a> =
+          <a data-fill="eq-c" data-v="2">2</a>x +
+          <a data-fill="eq-d" data-v="8">8</a>
+        </div>
+        <div id="eq-out" class="result"></div>
+      </div>
+    </section>
+
+    <!-- ================= 7. SQUARE & SQRT ================= -->
+    <section class="panel" id="panel-sq">
+      <div class="card">
+        <div class="card-head">
+          <span class="badge cyan">Square &amp; √</span>
+          <h2>Square and Square Root</h2>
+          <p>Column multiplication for the square, prime factors for the root.</p>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="sq-n">Number</label>
+            <input id="sq-n" type="text" value="144" placeholder="e.g. 144" spellcheck="false">
+          </div>
+          <button class="btn" data-run="sq" style="background:linear-gradient(135deg,#0c8599,#1098ad);box-shadow:0 9px 22px rgba(12,133,153,.35)">Show steps</button>
+        </div>
+        <div class="hint">Try:
+          <a data-fill="sq-n" data-v="7">7</a> ·
+          <a data-fill="sq-n" data-v="144">144</a> ·
+          <a data-fill="sq-n" data-v="225">225</a> ·
+          <a data-fill="sq-n" data-v="50">50</a>
+        </div>
+        <div id="sq-out" class="result"></div>
+      </div>
+    </section>
+
+    <!-- ================= 8. CUBE & CUBE ROOT ================= -->
+    <section class="panel" id="panel-cube">
+      <div class="card">
+        <div class="card-head">
+          <span class="badge green">Cube &amp; ∛</span>
+          <h2>Cube and Cube Root</h2>
+          <p>Multiply twice for the cube; group prime factors in threes for the root.</p>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="cube-n">Number</label>
+            <input id="cube-n" type="text" value="216" placeholder="e.g. 216" spellcheck="false">
+          </div>
+          <button class="btn" data-run="cube" style="background:linear-gradient(135deg,#2f9e44,#0ca678);box-shadow:0 9px 22px rgba(47,158,68,.35)">Show steps</button>
+        </div>
+        <div class="hint">Try:
+          <a data-fill="cube-n" data-v="5">5</a> ·
+          <a data-fill="cube-n" data-v="216">216</a> ·
+          <a data-fill="cube-n" data-v="343">343</a> ·
+          <a data-fill="cube-n" data-v="100">100</a>
+        </div>
+        <div id="cube-out" class="result"></div>
+      </div>
+    </section>
+
+    <!-- ================= 9. PRIME FACTORS ================= -->
+    <section class="panel" id="panel-prime">
+      <div class="card">
+        <div class="card-head">
+          <span class="badge grape">Prime Factors</span>
+          <h2>Prime Factorization</h2>
+          <p>Repeated division by the smallest prime, written as a factor ladder.</p>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="prime-n">Number (2 or more)</label>
+            <input id="prime-n" type="text" value="84" placeholder="e.g. 84" spellcheck="false">
+          </div>
+          <button class="btn" data-run="prime" style="background:linear-gradient(135deg,#9c36b5,#6741d9);box-shadow:0 9px 22px rgba(156,54,181,.35)">Show steps</button>
+        </div>
+        <div class="hint">Try:
+          <a data-fill="prime-n" data-v="84">84</a> ·
+          <a data-fill="prime-n" data-v="360">360</a> ·
+          <a data-fill="prime-n" data-v="97">97</a> ·
+          <a data-fill="prime-n" data-v="1024">1024</a>
+        </div>
+        <div id="prime-out" class="result"></div>
+      </div>
+    </section>
+
+    <!-- ================= 10. FRACTIONS ================= -->
+    <section class="panel" id="panel-frac">
+      <div class="card">
+        <div class="card-head">
+          <span class="badge red">Fractions</span>
+          <h2>Fraction Operations</h2>
+          <p>Add, subtract, multiply or divide — then simplify with the HCF.</p>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="frac-a">First fraction (a/b)</label>
+            <input id="frac-a" type="text" value="2/3" placeholder="2/3" spellcheck="false">
+          </div>
+          <div class="field tiny">
+            <label for="frac-op">Operation</label>
+            <select id="frac-op">
+              <option value="+">+ Add</option>
+              <option value="−">− Subtract</option>
+              <option value="×">× Multiply</option>
+              <option value="÷">÷ Divide</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="frac-b">Second fraction (c/d)</label>
+            <input id="frac-b" type="text" value="3/4" placeholder="3/4" spellcheck="false">
+          </div>
+          <button class="btn" data-run="frac" style="background:linear-gradient(135deg,#e03131,#c2255c);box-shadow:0 9px 22px rgba(224,49,49,.35)">Show steps</button>
+        </div>
+        <div class="hint">Try:
+          <a data-fill="frac-a" data-v="2/3">2/3</a> + <a data-fill="frac-b" data-v="1/6">1/6</a> ·
+          <a data-fill="frac-a" data-v="5/8">5/8</a> − <a data-fill="frac-b" data-v="1/4">1/4</a> ·
+          <a data-fill="frac-a" data-v="3/5">3/5</a> × <a data-fill="frac-b" data-v="10/9">10/9</a>
+        </div>
+        <div id="frac-out" class="result"></div>
+      </div>
+    </section>
+
+    <!-- ================= 11. PERCENTAGE ================= -->
+    <section class="panel" id="panel-pct">
+      <div class="card">
+        <div class="card-head">
+          <span class="badge amber">Percentage</span>
+          <h2>Percentage Calculator</h2>
+          <p>Three everyday percentage questions, each shown as a formula.</p>
+        </div>
+        <div class="row">
+          <div class="field small">
+            <label for="pct-mode">Question</label>
+            <select id="pct-mode">
+              <option value="of">A% of B</option>
+              <option value="is">A is what % of B</option>
+              <option value="chg">% change from A to B</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="pct-a" id="pct-a-label">A (%)</label>
+            <input id="pct-a" type="text" value="15" spellcheck="false">
+          </div>
+          <div class="field">
+            <label for="pct-b" id="pct-b-label">B (amount)</label>
+            <input id="pct-b" type="text" value="240" spellcheck="false">
+          </div>
+          <button class="btn" data-run="pct" style="background:linear-gradient(135deg,#e8590c,#f08c00);box-shadow:0 9px 22px rgba(232,89,12,.35)">Show steps</button>
+        </div>
+        <div class="hint">Try:
+          <a data-fill="pct-a" data-v="15">15</a>% of <a data-fill="pct-b" data-v="240">240</a> ·
+          <a data-fill="pct-a" data-v="45">45</a> of <a data-fill="pct-b" data-v="180">180</a> ·
+          <a data-fill="pct-a" data-v="80">80</a> → <a data-fill="pct-b" data-v="100">100</a>
+        </div>
+        <div id="pct-out" class="result"></div>
+      </div>
+    </section>
+
+    <!-- ================= 12. AVERAGES ================= -->
+    <section class="panel" id="panel-avg">
+      <div class="card">
+        <div class="card-head">
+          <span class="badge">Averages</span>
+          <h2>Mean · Median · Mode</h2>
+          <p>Type a list of numbers and see the full working for each average.</p>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="avg-input">Numbers — separate with commas</label>
+            <input id="avg-input" type="text" value="4, 8, 6, 5, 3" placeholder="e.g. 4, 8, 6, 5, 3" spellcheck="false">
+          </div>
+          <button class="btn" data-run="avg">Show steps</button>
+        </div>
+        <div class="hint">Try:
+          <a data-fill="avg-input" data-v="4, 8, 6, 5, 3">4, 8, 6, 5, 3</a> ·
+          <a data-fill="avg-input" data-v="10, 20, 30, 40">10, 20, 30, 40</a> ·
+          <a data-fill="avg-input" data-v="7, 7, 9, 12, 12, 12">7, 7, 9, 12, 12, 12</a>
+        </div>
+        <div id="avg-out" class="result"></div>
+      </div>
+    </section>
+
+    <!-- ================= 13. RATIO ================= -->
+    <section class="panel" id="panel-ratio">
+      <div class="card">
+        <div class="card-head">
+          <span class="badge teal">Ratio</span>
+          <h2>Ratio Simplifier</h2>
+          <p>Divide every part by the HCF to reach the simplest form.</p>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="ratio-input">Ratio — e.g. 12 : 18</label>
+            <input id="ratio-input" type="text" value="12 : 18" placeholder="12 : 18" spellcheck="false">
+          </div>
+          <button class="btn" data-run="ratio" style="background:linear-gradient(135deg,#0ca678,#1098ad);box-shadow:0 9px 22px rgba(12,166,120,.35)">Show steps</button>
+        </div>
+        <div class="hint">Try:
+          <a data-fill="ratio-input" data-v="12 : 18">12 : 18</a> ·
+          <a data-fill="ratio-input" data-v="45 : 75 : 90">45 : 75 : 90</a> ·
+          <a data-fill="ratio-input" data-v="8 : 12 : 20">8 : 12 : 20</a>
+        </div>
+        <div id="ratio-out" class="result"></div>
+      </div>
+    </section>
+
+    <!-- ================= 14. FACTORS ================= -->
+    <section class="panel" id="panel-factor">
+      <div class="card">
+        <div class="card-head">
+          <span class="badge pink">Factors</span>
+          <h2>Factors &amp; Multiples</h2>
+          <p>Every factor written in pairs, plus the first ten multiples.</p>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="factor-n">Number</label>
+            <input id="factor-n" type="text" value="36" placeholder="e.g. 36" spellcheck="false">
+          </div>
+          <button class="btn" data-run="factor" style="background:linear-gradient(135deg,#e64980,#be4bdb);box-shadow:0 9px 22px rgba(230,73,128,.35)">Show steps</button>
+        </div>
+        <div class="hint">Try:
+          <a data-fill="factor-n" data-v="36">36</a> ·
+          <a data-fill="factor-n" data-v="48">48</a> ·
+          <a data-fill="factor-n" data-v="97">97</a> ·
+          <a data-fill="factor-n" data-v="120">120</a>
+        </div>
+        <div id="factor-out" class="result"></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+/* ==================================================================
+   TINY HELPERS
+   ================================================================== */
+const el  = id => document.getElementById(id);
+const fmt = (n, dp = 6) => {
+  if (!isFinite(n)) return '∞';
+  const r = Math.round(n * 10 ** dp) / 10 ** dp;
+  return String(r);
+};
+const isInt = n => Math.abs(n - Math.round(n)) < 1e-9;
+const gcd = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) { const t = a % b; a = b; b = t; } return a; };
+const gcdAll = arr => arr.reduce((a, b) => gcd(a, b));
+
+function showError(outEl, msg){
+  outEl.innerHTML = `<div class="err">⚠️ &nbsp;${msg}</div>`;
+}
+
+function paperHTML({ title, body, tag = 'Answer', answer = '', note = '' }){
+  return `<div class="result"><div class="paper">
+      <div class="paper-title">${title}</div>
+      ${body}
+      ${answer ? `<div class="sumline"><span class="tag">${tag}</span><span class="math">${answer}</span></div>` : ''}
+      ${note ? `<p class="note">${note}</p>` : ''}
+    </div></div>`;
+}
+
+function parseNum(v){
+  const t = String(v).trim();
+  if (!/^-?\d+(\.\d+)?$/.test(t)) return null;
+  return parseFloat(t);
+}
+function parsePosInt(v){
+  const t = String(v).trim();
+  if (!/^\d{1,12}$/.test(t)) return null;
+  return parseInt(t, 10);
+}
+function parseNumbers(str, { min = 1, maxCount = 6, minCount = 2 } = {}){
+  const parts = String(str).trim().split(/[,\s]+/).filter(Boolean);
+  if (parts.length === 0) return { error: 'Please type at least two whole numbers.' };
+  if (parts.length < minCount) return { error: `Please enter at least ${minCount} numbers.` };
+  if (parts.length > maxCount) return { error: `Please enter no more than ${maxCount} numbers.` };
+  const nums = [];
+  for (const p of parts){
+    if (!/^\d{1,9}$/.test(p)) return { error: `“${p}” is not a whole number.` };
+    const n = parseInt(p, 10);
+    if (n < min) return { error: `Numbers must be ${min} or greater.` };
+    nums.push(n);
+  }
+  return { nums };
+}
+
+/* stacked fraction */
+const frac = (n, d) => d === 1
+  ? String(n)
+  : `<span class="frac"><span>${n}</span><span>${d}</span></span>`;
+
+/* ==================================================================
+   PRIME FACTORISATION CORE
+   ================================================================== */
+function primeFactors(n){
+  const set = new Set();
+  let x = n;
+  for (let i = 2; i * i <= x; i++){
+    while (x % i === 0){ set.add(i); x /= i; }
+  }
+  if (x > 1) set.add(x);
+  return set;
+}
+function primeMultiplicity(n){
+  const m = new Map();
+  let x = n;
+  for (let p = 2; p * p <= x; p++){
+    while (x % p === 0){ m.set(p, (m.get(p) || 0) + 1); x /= p; }
+  }
+  if (x > 1) m.set(x, (m.get(x) || 0) + 1);
+  return m;
+}
+function primePowerString(m){
+  return [...m.entries()]
+    .map(([p, e]) => e === 1 ? String(p) : `${p}<sup>${e}</sup>`)
+    .join(' × ');
+}
+
+/* ==================================================================
+   DIVISION LADDER  (LCM / HCF)
+   ================================================================== */
+function ladder(nums){
+  const primes = [...new Set(nums.flatMap(n => [...primeFactors(n)]))].sort((a, b) => a - b);
+  let cur = nums.slice();
+  const steps = [];
+  let guard = 0;
+  while (guard++ < 300){
+    const p = primes.find(q => cur.filter(n => n % q === 0).length >= 2);
+    if (p === undefined) break;
+    const after = cur.map(n => (n % p === 0 ? n / p : n));
+    steps.push({ p, before: cur.slice(), after });
+    cur = after;
+  }
+  return { steps, rest: cur };
+}
+function ladderTableHTML(res){
+  const rows = res.steps.map(s => ({ d: s.p, nums: s.before }));
+  rows.push({ d: '', nums: res.rest });
+  let html = '<table class="ladder">';
+  rows.forEach((r, i) => {
+    html += `<tr class="lrow" style="animation-delay:${i * 80}ms">`;
+    html += `<td class="dv">${r.d || ''}</td>`;
+    r.nums.forEach(v => { html += `<td class="num">${v}</td>`; });
+    html += '</tr>';
+  });
+  return html + '</table>';
+}
+
+/* ==================================================================
+   COLUMN MULTIPLICATION GRID  (reused by ×, square, cube)
+   ================================================================== */
+function gridRowsHTML(rows){
+  return rows.map(r => {
+    const isEmpty = r.cells.every(c => c === '');
+    const cells = r.cells.map((c, i) => {
+      const isRule = r.rule && i >= r.rule[0] && i <= r.rule[1];
+      const isOp   = c === '×';
+      return `<span class="c${isRule ? ' rule' : ''}${isOp ? ' op' : ''}">${c}</span>`;
+    }).join('');
+    return `<div class="ld-row${isEmpty && r.rule ? ' ruler' : ''}">${cells}</div>`;
+  }).join('');
+}
+function multGridHTML(a, b){
+  const A = String(a), B = String(b), P = String(a * b);
+  const W = Math.max(A.length, B.length, P.length) + 1;
+  const blank = () => new Array(W).fill('');
+  const place = (cells, str, endCol) => {
+    const start = endCol - str.length + 1;
+    for (let k = 0; k < str.length; k++) cells[start + k] = str[k];
+    return start;
+  };
+  const rows = [];
+
+  const r1 = blank();
+  const aStart = place(r1, A, W - 1);
+  rows.push({ cells: r1, rule: null });
+
+  const r2 = blank();
+  const bStart = place(r2, B, W - 1);
+  r2[bStart - 1] = '×';
+  rows.push({ cells: r2, rule: null });
+
+  rows.push({ cells: blank(), rule: [Math.min(aStart, bStart - 1), W - 1] });
+
+  let leftmost = W - 1;
+  for (let k = 0; k < B.length; k++){
+    const digit = Number(B[B.length - 1 - k]);
+    const cells = blank();
+    const st = place(cells, String(a * digit), W - 1 - k);
+    leftmost = Math.min(leftmost, st);
+    rows.push({ cells, rule: null });
+  }
+  if (B.length > 1){
+    rows.push({ cells: blank(), rule: [Math.min(leftmost, W - P.length), W - 1] });
+    const rp = blank();
+    place(rp, P, W - 1);
+    rows.push({ cells: rp, rule: null });
+  }
+  return `<div class="mult">${gridRowsHTML(rows)}</div>`;
+}
+
+/* ==================================================================
+   1. LCM
+   ================================================================== */
+function solveLCM(){
+  const out = el('lcm-out');
+  const { nums, error } = parseNumbers(el('lcm-input').value);
+  if (error) return showError(out, error);
+
+  const res = ladder(nums);
+  const factors = [...res.steps.map(s => s.p), ...res.rest];
+  const lcm = factors.reduce((a, b) => a * BigInt(b), 1n);
+
+  const coprimeNote = res.steps.length === 0
+    ? `<p class="note">These numbers share <b>no common factor</b>, so their LCM is simply their product.</p>`
+    : '';
+
+  out.innerHTML = paperHTML({
+    title: 'LCM — division ladder',
+    body: `<div class="tableau">${ladderTableHTML(res)}</div>`,
+    tag: 'LCM',
+    answer: `${factors.join(' <span class="mul">×</span> ')} = <b>${lcm}</b>`,
+    note: `Divide by the smallest prime that goes into <b>at least two</b> numbers at once.
+           Keep going until no prime divides two numbers. Multiply every divisor on the left
+           <b>and</b> everything left at the bottom.${coprimeNote}`
+  });
+}
+
+/* ==================================================================
+   2. HCF
+   ================================================================== */
+function solveHCF(){
+  const out = el('hcf-out');
+  const { nums, error } = parseNumbers(el('hcf-input').value);
+  if (error) return showError(out, error);
+
+  const res = ladder(nums);
+  const divisors = res.steps.map(s => s.p);
+  const hcf = divisors.reduce((a, b) => a * BigInt(b), 1n);
+
+  out.innerHTML = paperHTML({
+    title: 'HCF — division ladder',
+    body: `<div class="tableau">${ladderTableHTML(res)}</div>`,
+    tag: 'HCF',
+    answer: divisors.length
+      ? `${divisors.join(' <span class="mul">×</span> ')} = <b>${hcf}</b>`
+      : `<b>1</b>`,
+    note: divisors.length
+      ? `Multiply <b>only</b> the divisors on the left — ignore the numbers left at the bottom.`
+      : `No prime divides two of these numbers, so the only common factor is <b>1</b>.`
+  });
+}
+
+/* ==================================================================
+   3. LONG DIVISION
+   ================================================================== */
+function solveDiv(){
+  const out = el('div-out');
+  const rawA = el('div-a').value.trim();
+  const rawB = el('div-b').value.trim();
+
+  if (!/^\d{1,9}$/.test(rawA)) return showError(out, 'The dividend must be a whole number (0–999,999,999).');
+  if (!/^\d{1,9}$/.test(rawB)) return showError(out, 'The divisor must be a whole number (1–999,999,999).');
+
+  const dividend = parseInt(rawA, 10);
+  const divisor  = parseInt(rawB, 10);
+  if (divisor === 0) return showError(out, 'You cannot divide by zero.');
+
+  const ds = String(dividend).split('').map(Number);
+  const N  = ds.length;
+  const q  = new Array(N).fill('');
+  const workRows = [{ cells: ds.map(String), rule: null }];
+
+  let rem = 0, started = false, remRow = null;
+
+  for (let i = 0; i < N; i++){
+    const cur  = rem * 10 + ds[i];
+    const qd   = Math.floor(cur / divisor);
+    const nrem = cur % divisor;
+
+    if (!started && qd === 0){ rem = cur; continue; }
+
+    started = true;
+    q[i] = String(qd);
+
+    if (remRow) remRow.cells[i] = String(ds[i]);
+
+    if (qd > 0){
+      const sub = String(qd * divisor);
+      const subRow = { cells: new Array(N).fill(''), rule: null };
+      const subStart = i - sub.length + 1;
+      for (let k = 0; k < sub.length; k++) subRow.cells[subStart + k] = sub[k];
+
+      const curStart = i - String(cur).length + 1;
+      subRow.rule = [Math.min(subStart, curStart), i];
+      workRows.push(subRow);
+
+      if (nrem === 0 && i < N - 1){
+        remRow = null;
+      } else {
+        const nr = { cells: new Array(N).fill(''), rule: null };
+        const rs = String(nrem);
+        const rStart = i - rs.length + 1;
+        for (let k = 0; k < rs.length; k++) nr.cells[rStart + k] = rs[k];
+        workRows.push(nr);
+        remRow = nr;
+      }
+    }
+    rem = nrem;
+  }
+
+  const quotientStr = q.join('') || '0';
+  const quotientRow = `<div class="ld-row ld-q">${q.map(c => `<span class="c">${c}</span>`).join('')}</div>`;
+
+  const answer = rem === 0
+    ? `${dividend} ÷ ${divisor} = <b>${quotientStr}</b>`
+    : `${dividend} ÷ ${divisor} = <b>${quotientStr}</b> remainder <b>${rem}</b>`;
+
+  const tableau = started
+    ? `<div class="longdiv">
+         <div class="ld-divisor">${divisor}</div>
+         <div class="ld-main">
+           ${quotientRow}
+           <div class="ld-work">${gridRowsHTML(workRows)}</div>
+         </div>
+       </div>`
+    : `<p class="note" style="margin-top:0">${divisor} is bigger than ${dividend}, so it goes in <b>0</b> times.</p>`;
+
+  out.innerHTML = paperHTML({
+    title: 'Long division',
+    body: `<div class="tableau">${tableau}</div>`,
+    tag: 'Answer',
+    answer,
+    note: `Take the first digit (or first few digits) that the divisor fits into.
+           Divide → multiply → subtract → bring the next digit down. Repeat until no digits are left.`
+  });
+}
+
+/* ==================================================================
+   4. LONG MULTIPLICATION
+   ================================================================== */
+function solveMul(){
+  const out = el('mul-out');
+  const rawA = el('mul-a').value.trim();
+  const rawB = el('mul-b').value.trim();
+
+  if (!/^\d{1,6}$/.test(rawA)) return showError(out, 'The first number must be a whole number of up to 6 digits.');
+  if (!/^\d{1,6}$/.test(rawB)) return showError(out, 'The second number must be a whole number of up to 6 digits.');
+
+  const a = parseInt(rawA, 10);
+  const b = parseInt(rawB, 10);
+  if (a < 1 || b < 1) return showError(out, 'Please use numbers of 1 or more.');
+
+  const B = String(b);
+  const partials = [];
+  for (let k = 0; k < B.length; k++){
+    const digit = Number(B[B.length - 1 - k]);
+    partials.push({ digit, value: a * digit * Math.pow(10, k) });
+  }
+
+  let workList = '';
+  if (B.length > 1){
+    const items = partials.map(p =>
+      `<li>${a} <span class="mul">×</span> ${p.digit * Math.pow(10, 0) * Math.pow(10, 0) === 0 ? 0 : p.value / (a || 1) * 1} …</li>`
+    );
+    // simpler explicit list
+    const lines = partials.map(p => {
+      const placeVal = p.value / (a * p.digit);
+      return `<li>${a} <span class="mul">×</span> ${p.digit * placeVal} = ${p.value}</li>`;
+    }).join('');
+    const total = partials.reduce((s, p) => s + p.value, 0);
+    workList = `<ul class="worklist">
+        ${lines}
+        <li>Add them up: ${partials.map(p => p.value).join(' + ')} = <b style="color:#4c6ef5">${total}</b></li>
+      </ul>`;
+  }
+
+  out.innerHTML = paperHTML({
+    title: 'Long multiplication — column method',
+    body: `<div class="tableau">${multGridHTML(a, b)}</div>${workList}`,
+    tag: 'Answer',
+    answer: `${a} <span class="mul">×</span> ${b} = <b>${a * b}</b>`,
+    note: `Multiply by each digit of the bottom number separately.
+           Shift each partial product one place to the left, then add them all together.`
+  });
+}
+
+/* ==================================================================
+   5. PYTHAGORAS
+   ================================================================== */
+function solvePyth(){
+  const out = el('pyth-out');
+  const a = parseNum(el('pyth-a').value);
+  const b = parseNum(el('pyth-b').value);
+  const mode = el('pyth-mode').value;
+
+  if (a === null || b === null) return showError(out, 'Please enter two numbers.');
+  if (a <= 0 || b <= 0) return showError(out, 'Sides must be greater than zero.');
+
+  if (mode === 'hyp'){
+    const A = a * a, B = b * b, S = A + B;
+    const c = Math.sqrt(S);
+    const perfect = isInt(c);
+    const triple = perfect && isInt(a) && isInt(b);
+
+    const body = `
+      <div class="formula">a² + b² = c²</div>
+      <ol class="steps">
+        <li>a² = ${fmt(a)} × ${fmt(a)} = <b>${fmt(A)}</b></li>
+        <li>b² = ${fmt(b)} × ${fmt(b)} = <b>${fmt(B)}</b></li>
+        <li>a² + b² = ${fmt(A)} + ${fmt(B)} = <b>${fmt(S)}</b></li>
+        <li>c = √${fmt(S)} = <b>${perfect ? fmt(c) : '≈ ' + fmt(c, 4)}</b></li>
+      </ol>`;
+
+    out.innerHTML = paperHTML({
+      title: 'Pythagoras — finding the hypotenuse',
+      body,
+      tag: 'Hypotenuse',
+      answer: `c = ${perfect ? `<b>${fmt(c)}</b>` : `√${fmt(S)} ≈ <b>${fmt(c, 4)}</b>`}`,
+      note: triple
+        ? `Nice! (${fmt(a)}, ${fmt(b)}, ${fmt(c)}) is a <b>Pythagorean triple</b> — all three sides are whole numbers.`
+        : `The hypotenuse is always the longest side, opposite the right angle. Add the squares, then take the square root.`
+    });
+  } else {
+    if (b <= a) return showError(out, 'The hypotenuse must be longer than the leg.');
+    const A = a * a, C = b * b, D = C - A;
+    const leg = Math.sqrt(D);
+    const perfect = isInt(leg);
+
+    const body = `
+      <div class="formula">a² + b² = c² &nbsp;→&nbsp; b² = c² − a²</div>
+      <ol class="steps">
+        <li>c² = ${fmt(b)} × ${fmt(b)} = <b>${fmt(C)}</b></li>
+        <li>a² = ${fmt(a)} × ${fmt(a)} = <b>${fmt(A)}</b></li>
+        <li>b² = ${fmt(C)} − ${fmt(A)} = <b>${fmt(D)}</b></li>
+        <li>b = √${fmt(D)} = <b>${perfect ? fmt(leg) : '≈ ' + fmt(leg, 4)}</b></li>
+      </ol>`;
+
+    out.innerHTML = paperHTML({
+      title: 'Pythagoras — finding a missing leg',
+      body,
+      tag: 'Missing leg',
+      answer: `b = ${perfect ? `<b>${fmt(leg)}</b>` : `√${fmt(D)} ≈ <b>${fmt(leg, 4)}</b>`}`,
+      note: `Here the hypotenuse c = ${fmt(b)} is known, so subtract the known leg's square from it.`
+    });
+  }
+}
+
+/* ==================================================================
+   6. LINEAR EQUATIONS
+   ================================================================== */
+function sideStr(coef, cons){
+  let s = '';
+  if (coef !== 0){
+    if (coef === 1) s = 'x';
+    else if (coef === -1) s = '−x';
+    else s = fmt(coef) + 'x';
+  }
+  if (cons !== 0 || s === ''){
+    if (s === '') s = (cons < 0 ? '−' + fmt(Math.abs(cons)) : fmt(cons));
+    else s += (cons < 0 ? ' − ' + fmt(Math.abs(cons)) : ' + ' + fmt(cons));
+  }
+  return s;
+}
+
+function solveEq(){
+  const out = el('eq-out');
+  const a = parseNum(el('eq-a').value);
+  const b = parseNum(el('eq-b').value);
+  const c = parseNum(el('eq-c').value);
+  const d = parseNum(el('eq-d').value);
+
+  if (a === null || b === null || c === null || d === null)
+    return showError(out, 'Please fill in all four boxes with numbers.');
+
+  const coef = a - c;
+  if (coef === 0)
+    return showError(out, 'The x terms cancel out (a − c = 0), so this is not a simple linear equation in x.');
+
+  const rhs = d - b;
+  const x = rhs / coef;
+
+  let num = rhs, den = coef;
+  const g = gcd(num, den);
+  num /= g; den /= g;
+  if (den < 0){ num = -num; den = -den; }
+
+  const fracPart = den === 1 ? '' : ` = ${frac(num, den)}`;
+
+  const steps = [];
+  steps.push(`Write the equation: <b>${sideStr(a, b)} = ${sideStr(c, d)}</b>`);
+
+  if (c !== 0){
+    steps.push(`Move the x-terms to the left — subtract ${c === 1 ? 'x' : fmt(c) + 'x'} from both sides:
+      <b>${fmt(coef)}x${b !== 0 ? (b < 0 ? ' − ' + fmt(Math.abs(b)) : ' + ' + fmt(b)) : ''} = ${sideStr(0, d)}</b>`);
+  }
+  if (b !== 0){
+    steps.push(`Move the number to the right — ${b < 0 ? 'add' : 'subtract'} ${fmt(Math.abs(b))} on both sides:
+      <b>${fmt(coef)}x = ${fmt(rhs)}</b>`);
+  }
+  steps.push(`Divide both sides by ${fmt(coef)}: <b>x = ${fmt(rhs)} ÷ ${fmt(coef)}</b>`);
+  steps.push(`<b>x = ${fmt(x)}</b>`);
+
+  out.innerHTML = paperHTML({
+    title: 'Solving a linear equation',
+    body: `<ol class="steps">${steps.map(s => `<li>${s}</li>`).join('')}</ol>`,
+    tag: 'Solution',
+    answer: `x = <b>${fmt(x)}</b>${fracPart}`,
+    note: `Whatever you do to one side, do to the other. Collect all the x-terms on one side and all the plain numbers on the other.`
+  });
+}
+
+/* ==================================================================
+   7. SQUARE & SQUARE ROOT
+   ================================================================== */
+function solveSquare(){
+  const out = el('sq-out');
+  const raw = el('sq-n').value.trim();
+  if (!/^\d+(\.\d+)?$/.test(raw)) return showError(out, 'Please enter a positive number.');
+  const n = parseFloat(raw);
+  if (n <= 0) return showError(out, 'Please enter a number greater than zero.');
+
+  /* ---- square ---- */
+  let sqBody = '';
+  if (isInt(n)){
+    const ni = Math.round(n);
+    if (ni < 10){
+      sqBody = `<p class="math">${ni}<sup>2</sup> = ${ni} × ${ni} = <b>${ni * ni}</b></p>`;
+    } else {
+      sqBody = `<div class="tableau">${multGridHTML(ni, ni)}</div>
+        <p class="math">${ni}<sup>2</sup> = <b>${ni * ni}</b></p>`;
+    }
+  } else {
+    sqBody = `<p class="math">${fmt(n)}<sup>2</sup> = ${fmt(n)} × ${fmt(n)} = <b>${fmt(n * n)}</b></p>`;
+  }
+
+  /* ---- square root ---- */
+  let rootBody = '';
+  let answer = '';
+  const r = Math.sqrt(n);
+
+  if (isInt(n) && isInt(r)){
+    const ni = Math.round(n);
+    const m = primeMultiplicity(ni);
+    const flat = [];
+    for (const [p, e] of m) for (let i = 0; i < e; i++) flat.push(p);
+
+    const pairs = [];
+    for (let i = 0; i < flat.length; i += 2) pairs.push(flat.slice(i, i + 2));
+
+    const outside = pairs.reduce((acc, pr) => acc * pr[0], 1);
+
+    rootBody = `
+      <p class="math">${ni} = ${primePowerString(m)}</p>
+      <p class="math">Group into pairs: ${pairs.map(pr => '(' + pr.join('×') + ')').join('')}</p>
+      <p class="math">Take one factor from each pair: ${pairs.map(pr => pr[0]).join(' × ')} = <b>${outside}</b></p>`;
+    answer = `√${ni} = <b>${outside}</b>`;
+  } else {
+    const k = Math.floor(r);
+    const lo = k * k, hi = (k + 1) * (k + 1);
+    rootBody = `
+      <p class="math">${k}² = ${lo} &nbsp;and&nbsp; ${k + 1}² = ${hi}</p>
+      <p class="math">${lo} &lt; ${fmt(n)} &lt; ${hi}, so √${fmt(n)} lies between <b>${k}</b> and <b>${k + 1}</b>.</p>
+      <p class="math">√${fmt(n)} ≈ <b>${fmt(r, 4)}</b></p>`;
+    answer = `√${fmt(n)} ≈ <b>${fmt(r, 4)}</b>`;
+  }
+
+  out.innerHTML = paperHTML({
+    title: 'Square and square root',
+    body: `<div class="sec">① Square</div>${sqBody}
+           <div class="sec">② Square root</div>${rootBody}`,
+    tag: 'Result',
+    answer,
+    note: `A perfect square has an even number of every prime factor — that's why the pairs method works.`
+  });
+}
+
+/* ==================================================================
+   8. CUBE & CUBE ROOT
+   ================================================================== */
+function solveCube(){
+  const out = el('cube-out');
+  const raw = el('cube-n').value.trim();
+  if (!/^\d+(\.\d+)?$/.test(raw)) return showError(out, 'Please enter a positive number.');
+  const n = parseFloat(raw);
+  if (n <= 0) return showError(out, 'Please enter a number greater than zero.');
+
+  /* ---- cube ---- */
+  let cubeBody = '';
+  if (isInt(n)){
+    const ni = Math.round(n);
+    const sq = ni * ni;
+    if (ni < 10){
+      cubeBody = `<p class="math">${ni}<sup>3</sup> = ${ni} × ${ni} × ${ni} = <b>${ni * ni * ni}</b></p>`;
+    } else {
+      cubeBody = `
+        <p class="math">First: ${ni}<sup>2</sup> = ${ni} × ${ni} = <b>${sq}</b></p>
+        <p class="math">Then: ${sq} × ${ni} = <b>${sq * ni}</b></p>
+        <div class="tableau">${multGridHTML(sq, ni)}</div>`;
+    }
+  } else {
+    cubeBody = `<p class="math">${fmt(n)}<sup>3</sup> = <b>${fmt(n * n * n)}</b></p>`;
+  }
+
+  /* ---- cube root ---- */
+  let rootBody = '';
+  let answer = '';
+  const r = Math.cbrt(n);
+
+  if (isInt(n) && isInt(r)){
+    const ni = Math.round(n);
+    const m = primeMultiplicity(ni);
+    const flat = [];
+    for (const [p, e] of m) for (let i = 0; i < e; i++) flat.push(p);
+
+    const groups = [];
+    for (let i = 0; i < flat.length; i += 3) groups.push(flat.slice(i, i + 3));
+
+    const outside = groups.reduce((acc, g) => acc * g[0], 1);
+
+    rootBody = `
+      <p class="math">${ni} = ${primePowerString(m)}</p>
+      <p class="math">Group into threes: ${groups.map(g => '(' + g.join('×') + ')').join('')}</p>
+      <p class="math">Take one factor from each group: ${groups.map(g => g[0]).join(' × ')} = <b>${outside}</b></p>`;
+    answer = `∛${ni} = <b>${outside}</b>`;
+  } else {
+    const k = Math.floor(r);
+    const lo = k * k * k, hi = (k + 1) * (k + 1) * (k + 1);
+    rootBody = `
+      <p class="math">${k}³ = ${lo} &nbsp;and&nbsp; ${k + 1}³ = ${hi}</p>
+      <p class="math">${lo} &lt; ${fmt(n)} &lt; ${hi}, so ∛${fmt(n)} lies between <b>${k}</b> and <b>${k + 1}</b>.</p>
+      <p class="math">∛${fmt(n)} ≈ <b>${fmt(r, 4)}</b></p>`;
+    answer = `∛${fmt(n)} ≈ <b>${fmt(r, 4)}</b>`;
+  }
+
+  out.innerHTML = paperHTML({
+    title: 'Cube and cube root',
+    body: `<div class="sec">① Cube</div>${cubeBody}
+           <div class="sec">② Cube root</div>${rootBody}`,
+    tag: 'Result',
+    answer,
+    note: `A perfect cube has every prime factor appearing in multiples of three.`
+  });
+}
+
+/* ==================================================================
+   9. PRIME FACTORISATION
+   ================================================================== */
+function solvePrime(){
+  const out = el('prime-out');
+  const n = parsePosInt(el('prime-n').value);
+  if (n === null) return showError(out, 'Please enter a whole number.');
+  if (n < 2) return showError(out, 'Please enter a number of 2 or more.');
+
+  if (n > 999999999) return showError(out, 'That number is too large — keep it under 1,000,000,000.');
+
+  const m = primeMultiplicity(n);
+  const primes = [...m.keys()].sort((a, b) => a - b);
+
+  // build the division ladder
+  const rows = [];
+  let cur = n;
+  for (const p of primes){
+    const e = m.get(p);
+    for (let i = 0; i < e; i++){
+      rows.push({ d: p, v: cur });
+      cur = cur / p;
+    }
+  }
+  rows.push({ d: '', v: 1 });
+
+  let table = '<table class="ladder">';
+  rows.forEach((r, i) => {
+    table += `<tr class="lrow" style="animation-delay:${i * 70}ms">
+      <td class="dv">${r.d || ''}</td>
+      <td class="num">${r.v}</td>
+    </tr>`;
+  });
+  table += '</table>';
+
+  const expanded = primes.flatMap(p => Array(m.get(p)).fill(p)).join(' × ');
+  const isPrime = primes.length === 1 && m.get(primes[0]) === 1;
+
+  out.innerHTML = paperHTML({
+    title: 'Prime factorization',
+    body: `<div class="tableau">${table}</div>
+           <p class="math">${n} = ${expanded}</p>
+           ${expanded !== primePowerString(m) ? `<p class="math">${n} = ${primePowerString(m)}</p>` : ''}`,
+    tag: 'Prime form',
+    answer: `${n} = <b>${primePowerString(m)}</b>`,
+    note: isPrime
+      ? `<b>${n}</b> is a <b>prime number</b> — nothing divides it except 1 and itself.`
+      : `Always try the smallest prime first: 2, then 3, then 5, 7, 11, … Stop when the quotient is 1.`
+  });
+}
+
+/* ==================================================================
+   10. FRACTION OPERATIONS
+   ================================================================== */
+function parseFraction(str){
+  const t = String(str).trim().replace(/\s+/g, '');
+  if (/^\d+$/.test(t)) return { n: parseInt(t, 10), d: 1 };
+  const m = t.match(/^(\d+)\/(\d+)$/);
+  if (!m) return null;
+  const n = parseInt(m[1], 10), d = parseInt(m[2], 10);
+  if (d === 0) return null;
+  return { n, d };
+}
+
+function solveFrac(){
+  const out = el('frac-out');
+  const f1 = parseFraction(el('frac-a').value);
+  const f2 = parseFraction(el('frac-b').value);
+  const op = el('frac-op').value;
+
+  if (!f1) return showError(out, 'First fraction must look like 3/4 or 5.');
+  if (!f2) return showError(out, 'Second fraction must look like 3/4 or 5.');
+  if (op === '÷' && f2.n === 0) return showError(out, 'You cannot divide by zero.');
+
+  const A = f1.n, B = f1.d, C = f2.n, D = f2.d;
+  let steps = [];
+  let num, den;
+
+  if (op === '+' || op === '−'){
+    const lcd = B * D / gcd(B, D);
+    const k1 = lcd / B, k2 = lcd / D;
+    const n1 = A * k1, n2 = C * k2;
+
+    steps.push(`Write it out: ${frac(A, B)} ${op} ${frac(C, D)}`);
+    if (B !== D){
+      steps.push(`Find the LCM of the denominators ${B} and ${D} → <b>${lcd}</b>`);
+      steps.push(`Rewrite: ${frac(A, B)} = ${frac(n1, lcd)} &nbsp; and &nbsp; ${frac(C, D)} = ${frac(n2, lcd)}`);
+    }
+    steps.push(`Now the denominators match, ${op === '+' ? 'add' : 'subtract'} the numerators:`);
+    steps.push(`${frac(n1, lcd)} ${op} ${frac(n2, lcd)} = ${frac(op === '+' ? n1 + n2 : n1 - n2, lcd)}`);
+    num = op === '+' ? n1 + n2 : n1 - n2;
+    den = lcd;
+  } else if (op === '×'){
+    steps.push(`Write it out: ${frac(A, B)} × ${frac(C, D)}`);
+    steps.push(`Multiply straight across: (${A} × ${C}) / (${B} × ${D})`);
+    steps.push(`= ${frac(A * C, B * D)}`);
+    num = A * C; den = B * D;
+  } else {
+    steps.push(`Write it out: ${frac(A, B)} ÷ ${frac(C, D)}`);
+    steps.push(`Keep–Change–Flip: ${frac(A, B)} × ${frac(D, C)}`);
+    steps.push(`Multiply straight across: (${A} × ${D}) / (${B} × ${C}) = ${frac(A * D, B * C)}`);
+    num = A * D; den = B * C;
+  }
+
+  // simplify
+  const g = gcd(num, den);
+  const sn = num / g, sd = den / g;
+
+  if (g > 1){
+    steps.push(`Simplify — the HCF of ${Math.abs(num)} and ${Math.abs(den)} is <b>${g}</b>`);
+    steps.push(`Divide top and bottom by ${g}: ${frac(num, den)} = ${frac(sn, sd)}`);
+  } else {
+    steps.push(`Already in simplest form ✓`);
+  }
+
+  let answerFrac = frac(sn, sd);
+  let mixed = '';
+  if (Math.abs(sn) > sd && sd !== 1){
+    const whole = Math.trunc(sn / sd);
+    const rem = Math.abs(sn % sd);
+    if (rem !== 0){
+      mixed = ` = ${whole} ${frac(rem, sd)}`;
+    }
+  }
+
+  out.innerHTML = paperHTML({
+    title: 'Fraction operations',
+    body: `<ol class="steps">${steps.map(s => `<li>${s}</li>`).join('')}</ol>`,
+    tag: 'Answer',
+    answer: `${frac(A, B)} ${op} ${frac(C, D)} = <b>${answerFrac}</b>${mixed}`,
+    note: `Always finish by simplifying — divide the top and bottom by their highest common factor.`
+  });
+}
+
+/* ==================================================================
+   11. PERCENTAGE
+   ================================================================== */
+function solvePct(){
+  const out = el('pct-out');
+  const mode = el('pct-mode').value;
+  const a = parseNum(el('pct-a').value);
+  const b = parseNum(el('pct-b').value);
+
+  if (a === null || b === null) return showError(out, 'Please enter two numbers.');
+
+  let body = '', answer = '', note = '', tag = 'Answer';
+
+  if (mode === 'of'){
+    const val = (a / 100) * b;
+    body = `<ol class="steps">
+        <li>Percent means “out of 100”, so ${fmt(a)}% = ${frac(a, 100)}</li>
+        <li>Multiply by the amount: ${frac(a, 100)} × ${fmt(b)}</li>
+        <li>= ${fmt(a)} × ${fmt(b)} ÷ 100 = <b>${fmt(val)}</b></li>
+      </ol>`;
+    answer = `${fmt(a)}% of ${fmt(b)} = <b>${fmt(val)}</b>`;
+    note = `To find a percentage of a number, divide the percentage by 100 and multiply.`;
+  } else if (mode === 'is'){
+    if (b === 0) return showError(out, 'The second number cannot be zero.');
+    const pct = (a / b) * 100;
+    body = `<ol class="steps">
+        <li>Make it a fraction: ${frac(fmt(a), fmt(b))}</li>
+        <li>Convert to a decimal: ${fmt(a)} ÷ ${fmt(b)} = ${fmt(a / b, 6)}</li>
+        <li>Multiply by 100 to get a percentage: ${fmt(a / b, 6)} × 100 = <b>${fmt(pct, 4)}%</b></li>
+      </ol>`;
+    answer = `${fmt(a)} is <b>${fmt(pct, 4)}%</b> of ${fmt(b)}`;
+    note = `Percentage = (part ÷ whole) × 100.`;
+  } else {
+    if (a === 0) return showError(out, 'The starting value cannot be zero.');
+    const diff = b - a;
+    const pct = (diff / a) * 100;
+    body = `<ol class="steps">
+        <li>Find the change: ${fmt(b)} − ${fmt(a)} = <b>${fmt(diff)}</b></li>
+        <li>Divide the change by the original: ${fmt(diff)} ÷ ${fmt(a)} = ${fmt(diff / a, 6)}</li>
+        <li>Multiply by 100: ${fmt(diff / a, 6)} × 100 = <b>${fmt(pct, 4)}%</b></li>
+      </ol>`;
+    answer = `Change from ${fmt(a)} to ${fmt(b)} = <b>${pct >= 0 ? '+' : ''}${fmt(pct, 4)}%</b>`;
+    tag = pct >= 0 ? 'Increase' : 'Decrease';
+    note = `Percentage change = (change ÷ original) × 100. The original value always goes on the bottom.`;
+  }
+
+  out.innerHTML = paperHTML({ title: 'Percentage working', body, tag, answer, note });
+}
+
+/* ==================================================================
+   12. AVERAGES
+   ================================================================== */
+function solveAvg(){
+  const out = el('avg-out');
+  const raw = el('avg-input').value;
+  const parts = String(raw).trim().split(/[,\s]+/).filter(Boolean);
+  if (parts.length === 0) return showError(out, 'Please enter at least one number.');
+
+  const nums = [];
+  for (const p of parts){
+    const v = parseNum(p);
+    if (v === null) return showError(out, `“${p}” is not a number.`);
+    nums.push(v);
+  }
+
+  const sorted = [...nums].sort((a, b) => a - b);
+  const sum = nums.reduce((s, v) => s + v, 0);
+  const count = nums.length;
+  const mean = sum / count;
+
+  const mid = Math.floor(count / 2);
+  const median = count % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+
+  const freq = new Map();
+  nums.forEach(v => freq.set(v, (freq.get(v) || 0) + 1));
+  const maxF = Math.max(...freq.values());
+  const modes = [...freq.entries()].filter(([, f]) => f === maxF).map(([v]) => v);
+
+  const range = sorted[count - 1] - sorted[0];
+
+  const modeText = maxF === 1
+    ? 'no mode (every value appears once)'
+    : `${modes.map(m => `<b>${fmt(m)}</b>`).join(', ')} — appears ${maxF} times`;
+
+  const body = `
+    <div class="sec">① Mean</div>
+    <p class="math">Sum = ${nums.map(v => fmt(v)).join(' + ')} = <b>${fmt(sum)}</b></p>
+    <p class="math">Count = <b>${count}</b></p>
+    <p class="math">Mean = ${fmt(sum)} ÷ ${count} = <b>${fmt(mean, 6)}</b></p>
+
+    <div class="sec">② Median</div>
+    <p class="math">Sorted: ${sorted.map(v => fmt(v)).join(', ')}</p>
+    <p class="math">${count % 2
+      ? `The middle value (position ${mid + 1}) is <b>${fmt(median)}</b>`
+      : `Two middle values: ${fmt(sorted[mid - 1])} and ${fmt(sorted[mid])} → (${fmt(sorted[mid - 1])} + ${fmt(sorted[mid])}) ÷ 2 = <b>${fmt(median)}</b>`}</p>
+
+    <div class="sec">③ Mode</div>
+    <p class="math">Mode = ${modeText}</p>
+
+    <div class="sec">④ Range</div>
+    <p class="math">${fmt(sorted[count - 1])} − ${fmt(sorted[0])} = <b>${fmt(range)}</b></p>`;
+
+  out.innerHTML = paperHTML({
+    title: 'Mean, median, mode and range',
+    body,
+    tag: 'Summary',
+    answer: `Mean = <b>${fmt(mean, 4)}</b> · Median = <b>${fmt(median)}</b> · Mode = <b>${maxF === 1 ? 'none' : modes.map(m => fmt(m)).join(', ')}</b>`,
+    note: `The mean uses every value, the median uses position, and the mode uses frequency.`
+  });
+}
+
+/* ==================================================================
+   13. RATIO
+   ================================================================== */
+function solveRatio(){
+  const out = el('ratio-out');
+  const parts = String(el('ratio-input').value).trim().split(/[:\s,]+/).filter(Boolean);
+
+  if (parts.length < 2) return showError(out, 'Please enter at least two numbers, e.g. 12 : 18.');
+  if (parts.length > 5) return showError(out, 'Please keep it to five parts or fewer.');
+
+  const nums = [];
+  for (const p of parts){
+    if (!/^\d{1,9}$/.test(p)) return showError(out, `“${p}” is not a whole number.`);
+    const v = parseInt(p, 10);
+    if (v === 0) return showError(out, 'Ratio parts must be greater than zero.');
+    nums.push(v);
+  }
+
+  const h = gcdAll(nums);
+  const simplified = nums.map(v => v / h);
+
+  const steps = [`Original ratio: <b>${nums.join(' : ')}</b>`];
+  if (h === 1){
+    steps.push(`The HCF of ${nums.join(', ')} is <b>1</b>, so this ratio is already in its simplest form.`);
+  } else {
+    steps.push(`Find the HCF of ${nums.join(', ')} → <b>${h}</b>`);
+    steps.push(`Divide every part by ${h}: ${nums.map(v => `${v} ÷ ${h}`).join(' , ')}`);
+    steps.push(`Simplified: <b>${simplified.join(' : ')}</b>`);
+  }
+
+  out.innerHTML = paperHTML({
+    title: 'Simplifying a ratio',
+    body: `<ol class="steps">${steps.map(s => `<li>${s}</li>`).join('')}</ol>`,
+    tag: 'Simplest form',
+    answer: `${nums.join(' : ')} = <b>${simplified.join(' : ')}</b>`,
+    note: `A ratio stays the same when every part is divided by the same number — here, the HCF.`
+  });
+}
+
+/* ==================================================================
+   14. FACTORS & MULTIPLES
+   ================================================================== */
+function solveFactors(){
+  const out = el('factor-out');
+  const n = parsePosInt(el('factor-n').value);
+  if (n === null) return showError(out, 'Please enter a whole number.');
+  if (n < 1) return showError(out, 'Please enter a number of 1 or more.');
+  if (n > 100000000) return showError(out, 'That number is too large — keep it under 100,000,000.');
+
+  const pairs = [];
+  const flat = [];
+  for (let i = 1; i * i <= n; i++){
+    if (n % i === 0){
+      pairs.push([i, n / i]);
+      flat.push(i);
+      if (n / i !== i) flat.push(n / i);
+    }
+  }
+  flat.sort((a, b) => a - b);
+
+  const multiples = [];
+  for (let k = 1; k <= 10; k++) multiples.push(n * k);
+
+  const isPrime = flat.length === 2;
+  const kind = n === 1 ? 'neither prime nor composite' : (isPrime ? 'a prime number' : 'a composite number');
+
+  const body = `
+    <div class="sec">① Factor pairs</div>
+    <p class="math">${pairs.map(([a, b]) => `${a} × ${b}`).join(' , ')}</p>
+
+    <div class="sec">② All factors</div>
+    <p class="math">${flat.join(', ')}</p>
+    <p class="math">There are <b>${flat.length}</b> factors in total.</p>
+
+    <div class="sec">③ First 10 multiples</div>
+    <p class="math">${multiples.join(', ')}</p>
+
+    <div class="sec">④ What kind of number?</div>
+    <p class="math">${n} is <b>${kind}</b>.</p>`;
+
+  out.innerHTML = paperHTML({
+    title: `Factors and multiples of ${n}`,
+    body,
+    tag: 'Factors',
+    answer: `${flat.length} factors: <b>${flat.join(', ')}</b>`,
+    note: `Factor pairs stop at the square root — once you pass √${n} ≈ ${fmt(Math.sqrt(n), 2)}, you're just repeating pairs you already found.`
+  });
+}
+
+/* ==================================================================
+   REGISTRY + WIRING
+   ================================================================== */
+const RUN = {
+  lcm: solveLCM,
+  hcf: solveHCF,
+  div: solveDiv,
+  mul: solveMul,
+  pyth: solvePyth,
+  eq: solveEq,
+  sq: solveSquare,
+  cube: solveCube,
+  prime: solvePrime,
+  frac: solveFrac,
+  pct: solvePct,
+  avg: solveAvg,
+  ratio: solveRatio,
+  factor: solveFactors
+};
+
+/* tabs */
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t === tab));
+    document.querySelectorAll('.panel').forEach(p =>
+      p.classList.toggle('active', p.id === 'panel-' + tab.dataset.tab));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+/* run buttons */
+document.querySelectorAll('[data-run]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const fn = RUN[btn.dataset.run];
+    if (fn) fn();
+  });
+});
+
+/* Enter key inside a panel runs that panel's solver */
+document.querySelectorAll('.panel').forEach(panel => {
+  const id = panel.id.replace('panel-', '');
+  panel.querySelectorAll('input, select').forEach(input => {
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && RUN[id]){ e.preventDefault(); RUN[id](); }
+    });
+  });
+});
+
+/* quick-fill example links */
+document.querySelectorAll('[data-fill]').forEach(a => {
+  a.addEventListener('click', () => {
+    const target = el(a.dataset.fill);
+    if (target) target.value = a.dataset.v;
+  });
+});
+
+/* dynamic labels */
+el('pyth-mode').addEventListener('change', () => {
+  const m = el('pyth-mode').value;
+  el('pyth-b-label').textContent = m === 'hyp' ? 'Side b (leg)' : 'Hypotenuse c';
+});
+
+el('pct-mode').addEventListener('change', () => {
+  const m = el('pct-mode').value;
+  el('pct-a-label').textContent =
+    m === 'of' ? 'A (%)' : m === 'is' ? 'A (part)' : 'A (from)';
+  el('pct-b-label').textContent =
+    m === 'of' ? 'B (amount)' : m === 'is' ? 'B (whole)' : 'B (to)';
+});
+
+/* ==================================================================
+   PWA — manifest fallback, service worker, install button
+   ================================================================== */
+(function pwa(){
+  // Best-effort fallback manifest (used only if manifest.json is missing)
+  (async () => {
+    try{
+      const res = await fetch('manifest.json', { method: 'HEAD' });
+      if (!res.ok) throw new Error('missing');
+    } catch {
+      const manifest = {
+        name: 'Maths Notebook',
+        short_name: 'Maths',
+        description: '14 step-by-step handwritten maths tools.',
+        start_url: '.',
+        scope: '.',
+        display: 'standalone',
+        orientation: 'portrait',
+        background_color: '#f2f5fb',
+        theme_color: '#4c6ef5',
+        icons: [
+          { src: 'logo.jpg', sizes: '192x192', type: 'image/jpeg', purpose: 'any' },
+          { src: 'logo.jpg', sizes: '512x512', type: 'image/jpeg', purpose: 'any' },
+          { src: 'logo.jpg', sizes: '512x512', type: 'image/jpeg', purpose: 'maskable' }
+        ]
+      };
+      const blob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
+      const link = document.querySelector('link[rel="manifest"]');
+      if (link) link.href = URL.createObjectURL(blob);
+    }
+  })();
+
+  // Service worker (silently ignored if sw.js is not present)
+  if ('serviceWorker' in navigator){
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    });
+  }
+
+  // Install button
+  let deferredPrompt = null;
+  const btn = document.getElementById('installBtn');
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    deferredPrompt = e;
+    if (btn) btn.hidden = false;
+  });
+  if (btn){
+    btn.addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      try { await deferredPrompt.userChoice; } catch {}
+      deferredPrompt = null;
+      btn.hidden = true;
+    });
+  }
+  window.addEventListener('appinstalled', () => { if (btn) btn.hidden = true; });
+})();
+
+/* Show first result on load so the page never looks empty */
+window.addEventListener('DOMContentLoaded', () => {
+  try { solveLCM(); } catch(e){}
+});
+</script>
+
+<!--
+=========================================================================
+  PWA FILES — create these two files next to index.html
+  (the page works fine without them; they only enable offline + install)
+=========================================================================
+
+----------------------------- manifest.json -----------------------------
+{
+  "name": "Maths Notebook",
+  "short_name": "Maths",
+  "description": "14 step-by-step handwritten maths tools.",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f2f5fb",
+  "theme_color": "#4c6ef5",
+  "icons": [
+    { "src": "logo.jpg", "sizes": "192x192", "type": "image/jpeg", "purpose": "any" },
+    { "src": "logo.jpg", "sizes": "512x512", "type": "image/jpeg", "purpose": "any" },
+    { "src": "logo.jpg", "sizes": "512x512", "type": "image/jpeg", "purpose": "maskable" }
+  ]
+}
+
+-------------------------------- sw.js ---------------------------------
+const CACHE = 'maths-notebook-v1';
+const ASSETS = [
+  './',
+  './index.html',
+  './manifest.json',
+  './logo.jpg'
+];
+
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(CACHE).then(cache =>
+      Promise.allSettled(ASSETS.map(a => cache.add(a)))
+    ).then(() => self.skipWaiting())
+  );
+});
+
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys()
+      .then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
+      .then(() => self.clients.claim())
+  );
+});
+
+self.addEventListener('fetch', event => {
+  if (event.request.method !== 'GET') return;
+  event.respondWith(
+    caches.match(event.request).then(cached => {
+      if (cached) return cached;
+      return fetch(event.request).then(response => {
+        const copy = response.clone();
+        caches.open(CACHE).then(cache => cache.put(event.request, copy)).catch(() => {});
+        return response;
+      }).catch(() => cached);
+    })
+  );
+});
+
+=========================================================================
+  LOGO — drop your own file named exactly "logo.jpg" in the same folder.
+=========================================================================
+-->
+</body>
+</html>

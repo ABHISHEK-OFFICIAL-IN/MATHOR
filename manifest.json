@@ -1,0 +1,62 @@
+{
+  "id": "./",
+  "name": "Maths Notebook — 14 Handwritten Tools",
+  "short_name": "Maths Notebook",
+  "description": "14 step-by-step handwritten maths tools: LCM, HCF, long division, long multiplication, Pythagoras, equations, squares, cubes, prime factors, fractions, percentages, averages, ratio and factors.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui", "browser"],
+  "orientation": "portrait-primary",
+  "background_color": "#f2f5fb",
+  "theme_color": "#4c6ef5",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["education", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "logo.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "logo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "logo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "LCM Calculator",
+      "short_name": "LCM",
+      "url": "./index.html?tool=lcm",
+      "icons": [{ "src": "logo.jpg", "sizes": "192x192", "type": "image/jpeg" }]
+    },
+    {
+      "name": "Long Division",
+      "short_name": "Division",
+      "url": "./index.html?tool=div",
+      "icons": [{ "src": "logo.jpg", "sizes": "192x192", "type": "image/jpeg" }]
+    },
+    {
+      "name": "Pythagoras",
+      "short_name": "Pythagoras",
+      "url": "./index.html?tool=pyth",
+      "icons": [{ "src": "logo.jpg", "sizes": "192x192", "type": "image/jpeg" }]
+    },
+    {
+      "name": "Fractions",
+      "short_name": "Fractions",
+      "url": "./index.html?tool=frac",
+      "icons": [{ "src": "logo.jpg", "sizes": "192x192", "type": "image/jpeg" }]
+    }
+  ]
+}

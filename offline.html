@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Offline — Maths Notebook</title>
+<meta name="theme-color" content="#4c6ef5">
+<style>
+  :root{--ink:#1e2b3a;--ink-2:#5a6c82;--accent:#4c6ef5;--accent-2:#f76707;}
+  *{box-sizing:border-box}
+  body{
+    margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+    font-family:system-ui,-apple-system,sans-serif;color:var(--ink);padding:24px;
+    background:
+      radial-gradient(circle at 15% -5%, #e6eeff 0%, transparent 45%),
+      radial-gradient(circle at 92% 5%, #ffeade 0%, transparent 42%),
+      #f2f5fb;
+  }
+  .card{
+    max-width:440px;text-align:center;background:#fff;border-radius:26px;
+    padding:40px 28px;box-shadow:0 12px 34px rgba(30,43,58,.1);
+  }
+  .emoji{font-size:3.4rem;line-height:1;margin-bottom:14px}
+  h1{font-size:1.5rem;margin:0 0 10px}
+  p{color:var(--ink-2);line-height:1.6;margin:0 0 22px;font-size:.95rem}
+  button{
+    font-weight:800;font-size:.95rem;padding:13px 28px;border:0;border-radius:14px;
+    color:#fff;cursor:pointer;
+    background:linear-gradient(135deg,#4c6ef5,#7048e8);
+    box-shadow:0 9px 22px rgba(76,110,245,.35);
+  }
+  button:active{transform:translateY(1px)}
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="emoji">📡</div>
+    <h1>You're offline</h1>
+    <p>The Maths Notebook is installed, but this page needs a connection the first time. Connect to the internet and reload — after that every tool works fully offline.</p>
+    <button onclick="location.reload()">Retry</button>
+  </div>
+</body>
+</html>
